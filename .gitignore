@@ -1,0 +1,15 @@
+# python cache
+*.pyc
+
+# IDE files
+yandex_music/.idea/
+
+# database
+*.db
+
+# database backup scripts
+yandex_music/db_backup.py
+yandex_music/db_restore.py
+
+# flake8 config
+.flake8

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Artists | {{ playlist_title }}{% endblock %}
+
+{% block body %}
+    <section class="display-4 mb-2">
+        Artists in the playlist
+        <a class="text-decoration-none" href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist_id) }}">{{ playlist_title }}</a>
+        <a class="text-decoration-none" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist_id }}"
+           target="_blank" style="vertical-align: text-bottom; display: inline-flex">
+            <img class="align-self-center" src="/static/ya_music.png" style="width: 64px; height: 64px">
+        </a>
+    </section>
+
+    <table class="table table-hover" id="artistsTable">
+        <thead>
+        <tr>
+            <th scope="col" style="width: 10%">Tracks count</th>
+            <th scope="col" style="width: 80%">Artist</th>
+            <th scope="col" style="width: 10%">Yandex</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for count in counter %}
+        <tr>
+            <td>{{ count[0] }}</td>
+            <td>
+                <a class="text-decoration-none mr-2" href="{{ url_for('users.artist_page', user_id=user_id, artist_id=count[1].id) }}">{{ count[1].name }}</a>
+            </td>
+            <td style="padding: .55rem" align="center">
+                <a class="text-decoration-none" href="https://music.yandex.ru/artist/{{ count[1].id }}" target="_blank">
+                    <img src="/static/ya_music.png" style="width: 32px; height: 32px">
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready( function () {
+            $('#artistsTable').DataTable( {
+                "order": [[0, "desc"], [1, "asc"]]
+            } );
+        } );
+    </script>
+{% endblock %}
