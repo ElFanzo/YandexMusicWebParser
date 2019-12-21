@@ -2,7 +2,7 @@
 *.pyc
 
 # IDE files
-yandex_music/.idea/
+.idea/
 
 # database
 *.db
