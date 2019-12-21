@@ -1,7 +1,6 @@
 from . import app, db
-from . import models
-from . import view
-from .users.blueprint import users
+from . import models, view
+from . import users
 
 
 app.register_blueprint(users, url_prefix="/users")
