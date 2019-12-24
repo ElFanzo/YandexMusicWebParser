@@ -25,10 +25,10 @@
         <tr>
             <td>{{ count[0] }}</td>
             <td>
-                <a class="text-decoration-none mr-2" href="{{ url_for('users.genre_tracks', user_id=user_id, playlist_id=playlist_id, genre=count[1]) }}">{{ count[1] }}</a>
+                <a class="text-decoration-none mr-2" href="{{ url_for('users.genre_tracks', user_id=user_id, playlist_id=playlist_id, genre=count[1]) }}">{{ session["meta_tags"][count[1]]["fullTitle"] }}</a>
             </td>
             <td style="padding: .55rem" align="center">
-                <a class="text-decoration-none" href="https://music.yandex.ru/genre/{{ count[1] }}" target="_blank">
+                <a class="text-decoration-none" href="https://music.yandex.ru/genre/{{ session['meta_tags'][count[1]]['id'] }}" target="_blank">
                     <img src="/static/ya_music.png" style="width: 32px; height: 32px">
                 </a>
             </td>

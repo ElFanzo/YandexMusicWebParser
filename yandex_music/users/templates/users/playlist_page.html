@@ -42,9 +42,9 @@
         <thead>
         <tr>
             <th scope="col" style="width: 25%">Title</th>
-            <th scope="col" style="width: 35%">Artists</th>
+            <th scope="col" style="width: 41%">Artists</th>
             <th scope="col" style="width: 10%">Year</th>
-            <th scope="col" style="width: 20%">Genre</th>
+            <th scope="col" style="width: 14%">Genre</th>
             <th scope="col" style="width: 10%">Duration</th>
         </tr>
         </thead>
@@ -64,7 +64,7 @@
             </td>
             <td>
                 {% if track.genre %}
-                    <a class="text-decoration-none" href="{{ url_for('users.genre_tracks', user_id=playlist.user_id, playlist_id=playlist.id, genre=track.genre) }}">{{ track.genre }}</a>
+                    <a class="text-decoration-none" href="{{ url_for('users.genre_tracks', user_id=playlist.user_id, playlist_id=playlist.id, genre=track.genre) }}">{{ session["meta_tags"][track.genre]["fullTitle"] }}</a>
                 {% endif %}
             </td>
             <td>{{ track.duration }}</td>

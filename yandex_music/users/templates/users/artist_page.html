@@ -11,7 +11,7 @@
     {% for genre in genres %}
         {% if genre %}
         <div class="badge badge-success text-wrap p-2" style="font-size: 1em">
-            {{ genre }}
+            {{ session["meta_tags"][genre]["fullTitle"] }}
         </div>
         {% endif %}
     {% endfor %}
@@ -21,9 +21,9 @@
         <thead>
         <tr>
             <th scope="col" style="width: 15%">Title</th>
-            <th scope="col" style="width: 35%">Artists</th>
+            <th scope="col" style="width: 33%">Artists</th>
             <th scope="col" style="width: 5%">Year</th>
-            <th scope="col" style="width: 10%">Genre</th>
+            <th scope="col" style="width: 12%">Genre</th>
             <th scope="col" style="width: 10%">Duration</th>
             <th scope="col" style="width: 25%">In playlists</th>
         </tr>
@@ -48,7 +48,7 @@
             </td>
             <td>
             {% if track.genre %}
-                {{ track.genre }}
+                {{ session["meta_tags"][track.genre]["fullTitle"] }}
             {% endif %}
             </td>
             <td>{{ track.duration }}</td>

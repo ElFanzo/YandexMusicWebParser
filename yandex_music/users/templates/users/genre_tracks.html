@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ genre }} | {{ playlist_title }}{% endblock %}
+{% block title %}{{ session["meta_tags"][genre]["fullTitle"] }} | {{ playlist_title }}{% endblock %}
 
 {% block body %}
     <section class="display-4 mb-2">
-        <a class="text-decoration-none" href="https://music.yandex.ru/genre/{{ genre }}" target="_blank">{{ genre }}</a>
+        <a class="text-decoration-none" href="https://music.yandex.ru/genre/{{ session['meta_tags'][genre]['id'] }}" target="_blank">{{ session["meta_tags"][genre]["fullTitle"] }}</a>
         tracks in the playlist
         <a class="text-decoration-none" href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist_id) }}">{{ playlist_title }}</a>
         <a class="text-decoration-none" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist_id }}"

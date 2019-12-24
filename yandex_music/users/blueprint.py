@@ -1,10 +1,29 @@
+import functools
+import json
+
 from flask import Blueprint, redirect, render_template, request, url_for
+from flask import session
 
 from ..forms import UserForm
 from ..queries import Query
 from ..service import Service
 
 users = Blueprint("users", __name__, template_folder="templates")
+
+
+def genres_meta(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if not session.get("meta_tags"):
+            with open(
+                    url_for("static", filename="meta_tags_en.json"),
+                    encoding="utf-8"
+            ) as f:
+                session["meta_tags"] = json.load(f)
+
+        return func(*args, **kwargs)
+
+    return wrapper
 
 
 @users.route("/", methods=["GET", "POST"])
@@ -57,6 +76,7 @@ def user_delete(user_id):
     "/<int:user_id>/playlists/<int:playlist_id>",
     methods=["GET", "POST"]
 )
+@genres_meta
 def playlist_page(user_id, playlist_id):
     """Represent a playlist."""
     if not playlist_id:
@@ -86,6 +106,7 @@ def playlist_artists(user_id, playlist_id):
 
 
 @users.route("/<int:user_id>/playlists/<int:playlist_id>/genres")
+@genres_meta
 def playlist_genres(user_id, playlist_id):
     """Represent all genres in a playlist."""
     return render_template(
@@ -112,6 +133,7 @@ def playlist_years(user_id, playlist_id):
 
 
 @users.route("/<int:user_id>/artists/<int:artist_id>")
+@genres_meta
 def artist_page(user_id, artist_id):
     """Represent an artist."""
     artist = Query.get_artist(artist_id)
@@ -127,6 +149,7 @@ def artist_page(user_id, artist_id):
 
 
 @users.route("/<int:user_id>/playlists/<int:playlist_id>/years/<int:year>")
+@genres_meta
 def year_tracks(user_id, playlist_id, year):
     """Represent tracks released during a year in a playlist."""
     return render_template(
@@ -143,6 +166,7 @@ def year_tracks(user_id, playlist_id, year):
 @users.route(
     "/<int:user_id>/playlists/<int:playlist_id>/genres/<string:genre>"
 )
+@genres_meta
 def genre_tracks(user_id, playlist_id, genre):
     """Represent a genre tracks in a playlist."""
     return render_template(
