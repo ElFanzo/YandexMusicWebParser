@@ -6,7 +6,7 @@
     <div class="d-flex">
         <p class="display-4">
             Years in the playlist
-            <a class="text-decoration-none" href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist_id) }}">{{ playlist_title }}</a>
+            <a href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist_id) }}">{{ playlist_title }}</a>
         </p>
     </div>
 
@@ -22,7 +22,7 @@
         <tr>
             <td>{{ count[0] }}</td>
             <td>
-                <a class="text-decoration-none mr-2" href="{{ url_for('users.year_tracks', user_id=user_id, playlist_id=playlist_id, year=count[1]) }}">{{ count[1] }}</a>
+                <a href="{{ url_for('users.year_tracks', user_id=user_id, playlist_id=playlist_id, year=count[1]) }}">{{ count[1] }}</a>
             </td>
         </tr>
         {% endfor %}

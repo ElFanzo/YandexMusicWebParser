@@ -5,9 +5,8 @@
 {% block body %}
     <section class="display-4 mb-2">
         Playlist {{ playlist.title }}
-        <a class="text-decoration-none" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist.id }}"
-           target="_blank" style="vertical-align: text-bottom; display: inline-flex">
-            <img class="align-self-center" src="/static/ya_music.png" style="width: 64px; height: 64px">
+        <a class="ya-icon" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist.id }}" target="_blank">
+            <img src="/static/ya_music.png">
         </a>
         <a class="btn btn-outline-info" href="{{ url_for('users.playlist_artists', user_id=user_id, playlist_id=playlist.id) }}">Artists</a>
         <a class="btn btn-outline-info" href="{{ url_for('users.playlist_genres', user_id=user_id, playlist_id=playlist.id) }}">Genres</a>
@@ -51,20 +50,20 @@
         <tbody>
         {% for track in playlist.tracks %}
         <tr>
-            <td><a class="text-decoration-none" href="https://music.yandex.ru/track/{{ track.id }}" target="_blank">{{ track.title }}</a></td>
+            <td><a href="https://music.yandex.ru/track/{{ track.id }}" target="_blank">{{ track.title }}</a></td>
             <td>
                 {% for artist in track.artists %}
-                    <a class="text-decoration-none mr-2" href="{{ url_for('users.artist_page', user_id=playlist.user_id, artist_id=artist.id) }}">{{ artist.name }}</a>
+                    <a class="mr-2" href="{{ url_for('users.artist_page', user_id=playlist.user_id, artist_id=artist.id) }}">{{ artist.name }}</a>
                 {% endfor %}
             </td>
             <td>
                 {% if track.year %}
-                    <a class="text-decoration-none" href="{{ url_for('users.year_tracks', user_id=playlist.user_id, playlist_id=playlist.id, year=track.year) }}">{{ track.year }}</a>
+                    <a href="{{ url_for('users.year_tracks', user_id=playlist.user_id, playlist_id=playlist.id, year=track.year) }}">{{ track.year }}</a>
                 {% endif %}
             </td>
             <td>
                 {% if track.genre %}
-                    <a class="text-decoration-none" href="{{ url_for('users.genre_tracks', user_id=playlist.user_id, playlist_id=playlist.id, genre=track.genre) }}">{{ session["meta_tags"][track.genre]["fullTitle"] }}</a>
+                    <a href="{{ url_for('users.genre_tracks', user_id=playlist.user_id, playlist_id=playlist.id, genre=track.genre) }}">{{ session["meta_tags"][track.genre]["fullTitle"] }}</a>
                 {% endif %}
             </td>
             <td>{{ track.duration }}</td>

@@ -36,7 +36,7 @@
         <tbody>
             {% for user in users %}
             <tr>
-                <td><a class="text-decoration-none" href="{{ url_for('users.user_page', user_id=user.id) }}">{{ user.login }}</a></td>
+                <td><a href="{{ url_for('users.user_page', user_id=user.id) }}">{{ user.login }}</a></td>
                 <td>{{ user.name }}</td>
                 <td>
                 {% if user.sex %}
@@ -47,8 +47,8 @@
                 <td>{{ user.all_tracks_count }}</td>
                 <td>{{ user.fav_tracks_count }}</td>
                 <td style="padding: .55rem" align="center">
-                    <a class="text-decoration-none" href="https://music.yandex.ru/users/{{ user.login }}" target="_blank">
-                        <img src="/static/ya_music.png" style="width: 32px; height: 32px">
+                    <a href="https://music.yandex.ru/users/{{ user.login }}" target="_blank">
+                        <img class="x32" src="/static/ya_music.png">
                     </a>
                 </td>
             </tr>

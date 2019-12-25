@@ -5,10 +5,9 @@
 {% block body %}
     <section class="display-4 mb-2">
         Genres in the playlist
-        <a class="text-decoration-none" href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist_id) }}">{{ playlist_title }}</a>
-        <a class="text-decoration-none" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist_id }}"
-           target="_blank" style="vertical-align: text-bottom; display: inline-flex">
-            <img class="align-self-center" src="/static/ya_music.png" style="width: 64px; height: 64px">
+        <a href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist_id) }}">{{ playlist_title }}</a>
+        <a class="ya-icon" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist_id }}" target="_blank">
+            <img src="/static/ya_music.png">
         </a>
     </section>
 
@@ -25,11 +24,11 @@
         <tr>
             <td>{{ count[0] }}</td>
             <td>
-                <a class="text-decoration-none mr-2" href="{{ url_for('users.genre_tracks', user_id=user_id, playlist_id=playlist_id, genre=count[1]) }}">{{ session["meta_tags"][count[1]]["fullTitle"] }}</a>
+                <a class="mr-2" href="{{ url_for('users.genre_tracks', user_id=user_id, playlist_id=playlist_id, genre=count[1]) }}">{{ session["meta_tags"][count[1]]["fullTitle"] }}</a>
             </td>
             <td style="padding: .55rem" align="center">
-                <a class="text-decoration-none" href="https://music.yandex.ru/genre/{{ session['meta_tags'][count[1]]['id'] }}" target="_blank">
-                    <img src="/static/ya_music.png" style="width: 32px; height: 32px">
+                <a href="https://music.yandex.ru/genre/{{ session['meta_tags'][count[1]]['id'] }}" target="_blank">
+                    <img class="x32" src="/static/ya_music.png">
                 </a>
             </td>
         </tr>

@@ -4,7 +4,7 @@
 
 {% block body %}
     <p class="display-4">
-        <a class="text-decoration-none" href="https://music.yandex.ru/artist/{{ artist.id }}" target="_blank">{{ artist.name }}</a>
+        <a href="https://music.yandex.ru/artist/{{ artist.id }}" target="_blank">{{ artist.name }}</a>
     </p>
 
     <section class="mb-2">
@@ -31,13 +31,13 @@
         <tbody>
         {% for track in tracks %}
         <tr>
-            <td><a class="text-decoration-none" href="https://music.yandex.ru/track/{{ track.id }}" target="_blank">{{ track.title }}</a></td>
+            <td><a href="https://music.yandex.ru/track/{{ track.id }}" target="_blank">{{ track.title }}</a></td>
             <td>
             {% for artist_ in track.artists %}
             {% if artist_.id == artist.id %}
-                <a class="text-decoration-none mr-2" href="#">{{ artist.name }}</a>
+                <a class="mr-2" href="#">{{ artist.name }}</a>
             {% else %}
-                <a class="text-decoration-none mr-2" href="{{ url_for('users.artist_page', user_id=user_id, artist_id=artist_.id) }}">{{ artist_.name }}</a>
+                <a class="mr-2" href="{{ url_for('users.artist_page', user_id=user_id, artist_id=artist_.id) }}">{{ artist_.name }}</a>
             {% endif %}
             {% endfor %}
             </td>
@@ -55,7 +55,7 @@
             <td>
             {% for playlist in track.playlists %}
             {% if playlist.user_id == user_id %}
-                <a class="text-decoration-none" href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist.id) }}">{{ playlist.title }}</a>
+                <a class="mr-2" href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist.id) }}">{{ playlist.title }}</a>
             {% endif %}
             {% endfor %}
             </td>

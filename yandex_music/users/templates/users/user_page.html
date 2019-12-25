@@ -24,7 +24,7 @@
 {% block body %}
     <section class="user-info p-2 mb-2">
         <p class="display-4">
-            <a class="text-decoration-none" href="https://music.yandex.ru/users/{{ user.login }}" target="_blank">{{ user.name }}</a>
+            <a href="https://music.yandex.ru/users/{{ user.login }}" target="_blank">{{ user.name }}</a>
         </p>
         <a class="btn btn-outline-primary" href="{{ url_for('users.user_update', user_id=user.id) }}">Update data</a>
         <button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete data</button>
@@ -45,7 +45,7 @@
         {% for playlist in user.playlists %}
             <tr>
                 <td>
-                    <a class="text-decoration-none" href="{{ url_for('users.playlist_page', user_id=user.id, playlist_id=playlist.id) }}">{{ playlist.title }}</a>
+                    <a href="{{ url_for('users.playlist_page', user_id=user.id, playlist_id=playlist.id) }}">{{ playlist.title }}</a>
                 </td>
                 <td>{{ playlist.tracks_count }}</td>
                 <td>{{ playlist.duration }}</td>
@@ -60,8 +60,8 @@
                 {% endif %}
                 </td>
                 <td style="padding: .55rem" align="center">
-                    <a class="text-decoration-none" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist.id }}" target="_blank">
-                        <img src="/static/ya_music.png" style="width: 32px; height: 32px">
+                    <a href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist.id }}" target="_blank">
+                        <img class="x32" src="/static/ya_music.png">
                     </a>
                 </td>
             </tr>
