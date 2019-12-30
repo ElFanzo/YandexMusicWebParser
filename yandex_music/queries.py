@@ -232,6 +232,21 @@ class Query:
         self.__uid = user.id
 
     @staticmethod
+    def is_artist_exist(id_: int) -> bool:
+        return Artist.query.filter_by(id=id_).scalar() is not None
+
+    @staticmethod
+    def is_playlist_exist(user_id: int, playlist_id: int) -> bool:
+        return Playlist.query.\
+                   filter_by(user_id=user_id, id=playlist_id).\
+                   scalar() \
+                   is not None
+
+    @staticmethod
+    def is_user_exist(id_: int) -> bool:
+        return User.query.filter_by(id=id_).scalar() is not None
+
+    @staticmethod
     def update_modified(_id: int, modified: str):
         Playlist.query.filter_by(id=_id).update({"modified": modified})
         db.session.commit()

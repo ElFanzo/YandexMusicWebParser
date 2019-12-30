@@ -4,6 +4,7 @@ import json
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask import session
 
+from ..exceptions import ArtistNotFoundError, GenreNotFoundError, PlaylistNotFoundError, UserNotFoundError
 from ..forms import UserForm
 from ..queries import Query
 from ..service import Service
@@ -26,6 +27,26 @@ def genres_meta(func):
     return wrapper
 
 
+def is_user_exist(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if Query.is_user_exist(kwargs["user_id"]):
+            return func(*args, **kwargs)
+        raise UserNotFoundError
+
+    return wrapper
+
+
+def is_playlist_exist(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if Query.is_playlist_exist(kwargs["user_id"], kwargs["playlist_id"]):
+            return func(*args, **kwargs)
+        raise PlaylistNotFoundError
+
+    return wrapper
+
+
 @users.route("/", methods=["GET", "POST"])
 def index():
     """Represent all users."""
@@ -44,6 +65,7 @@ def index():
 
 
 @users.route("/<int:user_id>")
+@is_user_exist
 def user_page(user_id: int):
     """Represent a user."""
     user = Query.get_user(user_id)
@@ -57,7 +79,8 @@ def user_page(user_id: int):
 
 
 @users.route("/<int:user_id>/update")
-def user_update(user_id):
+@is_user_exist
+def user_update(user_id: int):
     """Update user and its data."""
     Service(Query.get_user_login(user_id)).update()
 
@@ -65,7 +88,8 @@ def user_update(user_id):
 
 
 @users.route("/<int:user_id>/delete")
-def user_delete(user_id):
+@is_user_exist
+def user_delete(user_id: int):
     """Delete user and its data."""
     Query.delete_user(user_id)
 
@@ -76,6 +100,8 @@ def user_delete(user_id):
     "/<int:user_id>/playlists/<int:playlist_id>",
     methods=["GET", "POST"]
 )
+@is_user_exist
+@is_playlist_exist
 @genres_meta
 def playlist_page(user_id, playlist_id):
     """Represent a playlist."""
@@ -93,6 +119,8 @@ def playlist_page(user_id, playlist_id):
 
 
 @users.route("/<int:user_id>/playlists/<int:playlist_id>/artists")
+@is_user_exist
+@is_playlist_exist
 def playlist_artists(user_id, playlist_id):
     """Represent all artists in a playlist."""
     return render_template(
@@ -106,6 +134,8 @@ def playlist_artists(user_id, playlist_id):
 
 
 @users.route("/<int:user_id>/playlists/<int:playlist_id>/genres")
+@is_user_exist
+@is_playlist_exist
 @genres_meta
 def playlist_genres(user_id, playlist_id):
     """Represent all genres in a playlist."""
@@ -120,6 +150,8 @@ def playlist_genres(user_id, playlist_id):
 
 
 @users.route("/<int:user_id>/playlists/<int:playlist_id>/years")
+@is_user_exist
+@is_playlist_exist
 def playlist_years(user_id, playlist_id):
     """Represent all release years in a playlist."""
     return render_template(
@@ -133,10 +165,13 @@ def playlist_years(user_id, playlist_id):
 
 
 @users.route("/<int:user_id>/artists/<int:artist_id>")
+@is_user_exist
 @genres_meta
 def artist_page(user_id, artist_id):
     """Represent an artist."""
     artist = Query.get_artist(artist_id)
+    if not Query.is_artist_exist(artist_id):
+        raise ArtistNotFoundError
 
     return render_template(
         "users/artist_page.html",
@@ -149,6 +184,8 @@ def artist_page(user_id, artist_id):
 
 
 @users.route("/<int:user_id>/playlists/<int:playlist_id>/years/<int:year>")
+@is_user_exist
+@is_playlist_exist
 @genres_meta
 def year_tracks(user_id, playlist_id, year):
     """Represent tracks released during a year in a playlist."""
@@ -166,9 +203,14 @@ def year_tracks(user_id, playlist_id, year):
 @users.route(
     "/<int:user_id>/playlists/<int:playlist_id>/genres/<string:genre>"
 )
+@is_user_exist
+@is_playlist_exist
 @genres_meta
 def genre_tracks(user_id, playlist_id, genre):
     """Represent a genre tracks in a playlist."""
+    if not session["meta_tags"].get(genre):
+        raise GenreNotFoundError
+
     return render_template(
         "users/genre_tracks.html",
         genre=genre,
