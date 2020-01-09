@@ -4,7 +4,8 @@ import json
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask import session
 
-from ..exceptions import ArtistNotFoundError, GenreNotFoundError, PlaylistNotFoundError, UserNotFoundError
+from ..exceptions import ArtistNotFoundError, GenreNotFoundError
+from ..exceptions import PlaylistNotFoundError, UserNotFoundError
 from ..forms import UserForm
 from ..queries import Query
 from ..service import Service
