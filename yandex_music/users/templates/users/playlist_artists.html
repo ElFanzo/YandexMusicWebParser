@@ -7,7 +7,7 @@
         Artists in the playlist
         <a href="{{ url_for('users.playlist_page', user_id=user_id, playlist_id=playlist_id) }}">{{ playlist_title }}</a>
         <a class="ya-icon" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist_id }}" target="_blank">
-            <img src="/static/ya_music.png">
+            <img src="{{ url_for('static', filename='images/ya_music.png') }}">
         </a>
     </section>
 
@@ -28,7 +28,7 @@
             </td>
             <td class="yandex">
                 <a href="https://music.yandex.ru/artist/{{ count[1].id }}" target="_blank">
-                    <img class="x32" src="/static/ya_music.png">
+                    <img class="x32" src="{{ url_for('static', filename='images/ya_music.png') }}">
                 </a>
             </td>
         </tr>

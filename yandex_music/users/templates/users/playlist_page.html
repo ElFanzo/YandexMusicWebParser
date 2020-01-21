@@ -6,7 +6,7 @@
     <section class="display-4 mb-2">
         Playlist {{ playlist.title }}
         <a class="ya-icon" href="https://music.yandex.ru/users/{{ login }}/playlists/{{ playlist.id }}" target="_blank">
-            <img src="/static/ya_music.png">
+            <img src="{{ url_for('static', filename='images/ya_music.png') }}">
         </a>
         <a class="btn btn-outline-info" href="{{ url_for('users.playlist_artists', user_id=user_id, playlist_id=playlist.id) }}">Artists</a>
         <a class="btn btn-outline-info" href="{{ url_for('users.playlist_genres', user_id=user_id, playlist_id=playlist.id) }}">Genres</a>

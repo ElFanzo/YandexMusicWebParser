@@ -48,7 +48,7 @@
                 <td>{{ user.fav_tracks_count }}</td>
                 <td class="yandex">
                     <a href="https://music.yandex.ru/users/{{ user.login }}" target="_blank">
-                        <img class="x32" src="/static/ya_music.png">
+                        <img class="x32" src="{{ url_for('static', filename='images/ya_music.png') }}">
                     </a>
                 </td>
             </tr>
