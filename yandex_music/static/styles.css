@@ -1,0 +1,66 @@
+body {
+    color: #343a40;
+    background-color: #e6e6e6;
+}
+main {
+    background-color: #f8f9fa;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    padding: .25rem 1rem 1rem 1rem;
+    margin: 1rem;
+}
+div.modal-content {
+    width: 20em !important;
+}
+div.badge {
+    font-size: 1em !important;
+    padding: .5rem !important;
+}
+td {
+    width: 1px;
+    white-space: nowrap;
+}
+td.yandex {
+    padding: .55rem !important;
+    text-align: center;
+}
+th.ya-url {
+    width: 8% !important;
+    text-align: center;
+}
+th.tracks-count {
+    width: 15% !important;
+}
+a {
+    text-decoration: none !important;
+}
+a.ya-icon {
+    vertical-align: text-bottom !important;
+    display: inline-flex !important;
+}
+img {
+    width: 64px;
+    height: 64px;
+}
+img.x32 {
+    width: 32px;
+    height: 32px;
+}
+p.error {
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 3%;
+    color: darkcyan;
+    font-family: monospace;
+    font-size: 6rem;
+    font-weight: bold;
+    line-height: 1;
+}
+p.error-footer {
+    text-align: center;
+    font-size: 1.5rem;
+}
+span.error {
+    font-family: monospace;
+    font-size: 1.4rem;
+    color: red;
+}
