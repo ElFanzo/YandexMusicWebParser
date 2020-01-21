@@ -10,7 +10,7 @@
     <section class="mb-2">
     {% for genre in genres %}
         {% if genre %}
-        <div class="badge badge-success text-wrap p-2" style="font-size: 1em">
+        <div class="badge badge-success">
             {{ session["meta_tags"][genre]["fullTitle"] }}
         </div>
         {% endif %}

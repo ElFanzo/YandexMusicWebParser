@@ -17,7 +17,7 @@
     </form>
     <p>
         {% for error in form.login.errors %}
-            <span style="color: red">{{ error }}</span>
+            <span class="error">{{ error }}</span>
         {% endfor %}
     </p>
 
@@ -46,7 +46,7 @@
                 <td>{{ user.playlists_count }}</td>
                 <td>{{ user.all_tracks_count }}</td>
                 <td>{{ user.fav_tracks_count }}</td>
-                <td style="padding: .55rem" align="center">
+                <td class="yandex">
                     <a href="https://music.yandex.ru/users/{{ user.login }}" target="_blank">
                         <img class="x32" src="/static/ya_music.png">
                     </a>

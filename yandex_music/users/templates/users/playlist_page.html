@@ -14,25 +14,25 @@
     </section>
     <section class="mb-2">
         {% if playlist.created %}
-        <div class="badge badge-dark text-wrap p-2" style="font-size: 1em">
+        <div class="badge badge-dark">
             Created
         </div>
-        <div class="badge badge-success text-wrap p-2" style="font-size: 1em">
+        <div class="badge badge-success">
             {{ playlist.created }}
         </div>
         {% endif %}
         {% if playlist.modified %}
-        <div class="badge badge-dark text-wrap p-2" style="font-size: 1em">
+        <div class="badge badge-dark">
             Modified
         </div>
-        <div class="badge badge-success text-wrap p-2" style="font-size: 1em">
+        <div class="badge badge-success">
             {{ playlist.modified }}
         </div>
         {% endif %}
-        <div class="badge badge-dark text-wrap p-2" style="font-size: 1em">
+        <div class="badge badge-dark">
             Duration
         </div>
-        <div class="badge badge-success text-wrap p-2" style="font-size: 1em">
+        <div class="badge badge-success">
             {{ playlist.duration }}
         </div>
     </section>

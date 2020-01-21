@@ -26,7 +26,7 @@
             <td>
                 <a class="mr-2" href="{{ url_for('users.genre_tracks', user_id=user_id, playlist_id=playlist_id, genre=count[1]) }}">{{ session["meta_tags"][count[1]]["fullTitle"] }}</a>
             </td>
-            <td style="padding: .55rem" align="center">
+            <td class="yandex">
                 <a href="https://music.yandex.ru/genre/{{ session['meta_tags'][count[1]]['id'] }}" target="_blank">
                     <img class="x32" src="/static/ya_music.png">
                 </a>
