@@ -48,7 +48,7 @@
             </td>
             <td>
             {% if track.genre %}
-                {{ session["meta_tags"][track.genre]["fullTitle"] }}
+                <a href="https://music.yandex.ru/genre/{{ session['meta_tags'][track.genre]['id'] }}" target="_blank">{{ session["meta_tags"][track.genre]["fullTitle"] }}</a>
             {% endif %}
             </td>
             <td>{{ track.duration }}</td>
