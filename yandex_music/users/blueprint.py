@@ -17,10 +17,7 @@ def genres_meta(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         if not session.get("meta_tags"):
-            with open(
-                    url_for("static", filename="json/meta_tags_en.json"),
-                    encoding="utf-8"
-            ) as f:
+            with open("static/json/meta_tags_en.json", encoding="utf-8") as f:
                 session["meta_tags"] = json.load(f)
 
         return func(*args, **kwargs)
