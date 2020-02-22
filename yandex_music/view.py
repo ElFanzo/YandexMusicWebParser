@@ -21,4 +21,4 @@ def page_not_found(error):
 @app.errorhandler(500)
 def internal_error(error):
     return render_template("error.html", error=InternalServerError()), \
-           error.code
+        error.code

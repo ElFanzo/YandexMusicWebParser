@@ -237,10 +237,12 @@ class Query:
 
     @staticmethod
     def is_playlist_exist(user_id: int, playlist_id: int) -> bool:
-        return Playlist.query.\
-                   filter_by(user_id=user_id, id=playlist_id).\
-                   scalar() \
-                   is not None
+        return (
+            Playlist.query
+            .filter_by(user_id=user_id, id=playlist_id)
+            .scalar()
+            is not None
+        )
 
     @staticmethod
     def is_user_exist(id_: int) -> bool:
