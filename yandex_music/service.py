@@ -21,7 +21,7 @@ class Service:
 
         self.__add_user(common)
 
-        self.__add_new_playlists(common, common["playlistIds"])
+        self.__add_playlists(common, common["playlistIds"])
 
         self.__update_user_data(common)
 
@@ -32,7 +32,13 @@ class Service:
         remote_ids = common["playlistIds"]
         diff = Service.__get_differences(local_ids, remote_ids)
 
-        self.__add_delete_playlists(common, diff, remote_ids)
+        if diff:
+            if diff["add"]:
+                self.__add_playlists(common, diff["add"])
+            if diff["delete"]:
+                self.__query.delete_playlists(diff["delete"])
+
+            self.__query.update_playlists_count(len(remote_ids))
 
         existed_ids = set(local_ids) - (diff["delete"] if diff else set())
         self.__update_existed(
@@ -42,38 +48,6 @@ class Service:
         Query.delete_unused()
 
         self.__update_user_data(common)
-
-    def __add_delete_playlists(self, common, diff, remote_ids):
-        """Add new, delete existed."""
-        if diff:
-            if diff["add"]:
-                self.__add_new_playlists(common, diff["add"])
-            if diff["delete"]:
-                self.__query.delete_playlists(diff["delete"])
-
-            self.__query.update_playlists_count(len(remote_ids))
-
-    def __add_new_playlists(self, common, ids):
-        playlists = self.__add_playlists(common, ids)
-
-        for playlist in playlists:
-            self.__add_playlist_tracks(playlist)
-            Query.update_playlist_duration(
-                playlist,
-                Service.__format_playlist_ms(playlist.duration_ms)
-            )
-
-    def __add_playlists(self, common, ids_to_add):
-        return [
-            self.__query.insert_playlist(
-                id=playlist["kind"],
-                title=playlist["title"],
-                created=Service.__format_date(playlist.get("created")),
-                modified=Service.__format_date(playlist.get("modified"))
-            )
-            for playlist in common["playlists"]
-            if playlist["kind"] in ids_to_add
-        ]
 
     def __add_playlist_tracks(self, playlist):
         playlist_info = self.__get_playlist_info(playlist.id)
@@ -85,6 +59,16 @@ class Service:
                 [int(str(i).split(":")[0]) for i in playlist_info["trackIds"]]
             )
         )
+
+    def __add_playlists(self, common, ids):
+        playlists = self.__insert_playlists(common, ids)
+
+        for playlist in playlists:
+            self.__add_playlist_tracks(playlist)
+            Query.update_playlist_duration(
+                playlist,
+                Service.__format_playlist_ms(playlist.duration_ms)
+            )
 
     @staticmethod
     def __add_tracks_with_artists(playlist, tracks, ids_to_add):
@@ -172,6 +156,18 @@ class Service:
         return Connection().get_json(
             "playlist", self.__login, _id
         )["playlist"]
+
+    def __insert_playlists(self, common, ids_to_add):
+        return [
+            self.__query.insert_playlist(
+                id=playlist["kind"],
+                title=playlist["title"],
+                created=Service.__format_date(playlist.get("created")),
+                modified=Service.__format_date(playlist.get("modified"))
+            )
+            for playlist in common["playlists"]
+            if playlist["kind"] in ids_to_add
+        ]
 
     def __update_existed(self, existed):
         for playlist in existed:
