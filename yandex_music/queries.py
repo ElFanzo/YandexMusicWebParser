@@ -6,7 +6,7 @@ class Query:
     """Queries executing class."""
 
     def __init__(self, login: str):
-        self.__uid = self.__get_user_id(login)
+        self._uid = self._get_user_id(login)
 
     @staticmethod
     def commit(obj):
@@ -16,7 +16,7 @@ class Query:
     def delete_playlists(self, ids: set):
         playlists = (
             Playlist.query
-            .filter_by(user_id=self.__uid)
+            .filter_by(user_id=self._uid)
             .filter(Playlist.id.in_(ids))
             .all()
         )
@@ -38,8 +38,8 @@ class Query:
 
     @staticmethod
     def delete_unused():
-        Query.__delete_unused_tracks()
-        Query.__delete_unused_artists()
+        Query._delete_unused_tracks()
+        Query._delete_unused_artists()
 
     @staticmethod
     def delete_user(id_):
@@ -65,7 +65,7 @@ class Query:
         return self.get_playlist(_id).modified
 
     def get_playlist(self, id_: int):
-        return self.get_user_playlist(self.__uid, id_)
+        return self.get_user_playlist(self._uid, id_)
 
     @staticmethod
     def get_playlist_artists(uid: int, _id: int):
@@ -122,13 +122,13 @@ class Query:
         ]
 
     def get_playlist_title(self, id_: int):
-        return self.get_user_playlist_title(self.__uid, id_)
+        return self.get_user_playlist_title(self._uid, id_)
 
     def get_playlist_tracks_ids(self, _id: int):
         return [
             i[0]
             for i in Playlist.query
-            .filter_by(user_id=self.__uid, id=_id)
+            .filter_by(user_id=self._uid, id=_id)
             .join(Playlist.tracks)
             .values(Track.id)
         ]
@@ -194,7 +194,7 @@ class Query:
         return (
             Track.query
             .join(Track.playlists)
-            .filter(Playlist.user_id == self.__uid, Playlist.id.in_(ids))
+            .filter(Playlist.user_id == self._uid, Playlist.id.in_(ids))
             .distinct()
             .count()
         )
@@ -204,7 +204,7 @@ class Query:
         return User.query.all()
 
     def insert_playlist(self, **params):
-        playlist = Playlist(user_id=self.__uid, **params)
+        playlist = Playlist(user_id=self._uid, **params)
 
         Query.commit(playlist)
 
@@ -229,7 +229,7 @@ class Query:
         user = User(**params)
         Query.commit(user)
 
-        self.__uid = user.id
+        self._uid = user.id
 
     @staticmethod
     def is_artist_exist(id_: int) -> bool:
@@ -264,11 +264,11 @@ class Query:
         db.session.commit()
 
     def update_playlists_count(self, count: int):
-        User.query.filter_by(id=self.__uid).update({"playlists_count": count})
+        User.query.filter_by(id=self._uid).update({"playlists_count": count})
         db.session.commit()
 
     def update_user_data(self, name, sex):
-        user = User.query.get(self.__uid)
+        user = User.query.get(self._uid)
         user.name = name
         user.sex = sex
         user.fav_tracks_count = self.get_user_tracks_count([3])
@@ -278,17 +278,17 @@ class Query:
         Query.commit(user)
 
     @staticmethod
-    def __get_user_id(login: str):
+    def _get_user_id(login: str):
         return User.query.filter_by(login=login).value("id")
 
     @staticmethod
-    def __delete_unused_artists():
+    def _delete_unused_artists():
         for artist in Artist.query.filter_by(tracks=None).all():
             db.session.delete(artist)
         db.session.commit()
 
     @staticmethod
-    def __delete_unused_tracks():
+    def _delete_unused_tracks():
         for track in Track.query.filter_by(playlists=None).all():
             db.session.delete(track)
         db.session.commit()

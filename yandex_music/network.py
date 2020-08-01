@@ -13,6 +13,7 @@ HEADERS = {
     "Referer": "https://music.yandex.ru/",
 }
 
+
 class Connection:
     """Connect to the Yandex Music site and download response."""
 
@@ -21,9 +22,9 @@ class Connection:
 
     def get_json(self, subject, *args):
         """Get response in the JSON format."""
-        return loads(self.__response(subject, *args))
+        return loads(self._response(subject, *args))
 
-    def __response(self, subject, *args):
+    def _response(self, subject, *args):
         """Get response from the Yandex Music site."""
         url = URLS[subject].format(*args)
         return self.__http.request("GET", url, headers=HEADERS).data
