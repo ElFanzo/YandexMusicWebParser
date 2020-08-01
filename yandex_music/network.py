@@ -9,7 +9,9 @@ URLS = {
     "playlist": f"{BASE_URL}" "/playlist.jsx?owner={}&kinds={}",
     "artist": f"{BASE_URL}" "/artist.jsx?artist={}",
 }
-
+HEADERS = {
+    "Referer": "https://music.yandex.ru/",
+}
 
 class Connection:
     """Connect to the Yandex Music site and download response."""
@@ -24,4 +26,4 @@ class Connection:
     def __response(self, subject, *args):
         """Get response from the Yandex Music site."""
         url = URLS[subject].format(*args)
-        return self.__http.request("GET", url).data
+        return self.__http.request("GET", url, headers=HEADERS).data
